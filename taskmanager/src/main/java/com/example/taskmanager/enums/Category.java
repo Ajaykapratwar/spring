@@ -1,6 +1,12 @@
 package com.example.taskmanager.enums;
 
+/**
+ * Supported categories for organizing tasks.
+ */
 public enum Category {
 
-    PERSONAL, WORK
+    /** Personal task category. */
+    PERSONAL,
+    /** Work-related task category. */
+    WORK
 }

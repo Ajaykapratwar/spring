@@ -7,10 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Converts application exceptions into consistent API error responses.
+ */
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler{
 
+    /**
+     * Handles unexpected exceptions that are not otherwise mapped.
+     *
+     * @param ex unexpected exception
+     * @return an internal-server-error response
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleUnknownException(Exception ex) {
         log.error("Internal server error: ", ex);
@@ -20,6 +29,12 @@ public class GlobalExceptionHandler{
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Handles invalid client requests.
+     *
+     * @param ex bad-request exception
+     * @return a bad-request response
+     */
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiResponse<?>> handleBadRequestException(BadRequestException ex) {
         log.error("Bad request exception: {}", ex.getMessage());
@@ -29,6 +44,12 @@ public class GlobalExceptionHandler{
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles requests for resources that do not exist.
+     *
+     * @param ex not-found exception
+     * @return a not-found response
+     */
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleNotFoundException(NotFoundException ex) {
         log.error("Not Found exception: {}", ex.getMessage());

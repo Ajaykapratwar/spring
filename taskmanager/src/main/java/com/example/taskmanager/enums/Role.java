@@ -1,6 +1,12 @@
 package com.example.taskmanager.enums;
 
+/**
+ * Roles that determine a user's application permissions.
+ */
 public enum Role {
 
-    ADMIN, USER
+    /** Administrator role. */
+    ADMIN,
+    /** Standard application user role. */
+    USER
 }

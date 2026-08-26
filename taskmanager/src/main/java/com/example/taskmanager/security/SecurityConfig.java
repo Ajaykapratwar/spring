@@ -15,11 +15,20 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
+/**
+ * Configures HTTP security, CORS, sessions, authentication, and logout.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    /**
+     * Builds the security filter chain for all HTTP requests.
+     *
+     * @param http Spring Security HTTP configuration
+     * @return configured security filter chain
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
@@ -62,11 +71,22 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Exposes Spring Security's authentication manager.
+     *
+     * @param configuration authentication configuration supplied by Spring
+     * @return configured authentication manager
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
     }
 
+    /**
+     * Creates the password encoder used for user credentials.
+     *
+     * @return BCrypt password encoder
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
