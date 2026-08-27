@@ -58,7 +58,10 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(regRequest.getPassword()));
 
         // Allow the ADMIN role only when it is explicitly provided.
-        if (regRequest.getRole().equals(Role.ADMIN)) {
+        if(regRequest.getRole() == null) {
+            user.setRole(Role.USER);
+        }
+        else if (regRequest.getRole().equals(Role.ADMIN)) {
             user.setRole(Role.ADMIN);
         } else {
             // All other role values are treated as a normal USER.
