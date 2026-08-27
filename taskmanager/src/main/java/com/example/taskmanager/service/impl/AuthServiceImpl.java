@@ -88,6 +88,8 @@ public class AuthServiceImpl implements AuthService {
     public ApiResponse<?> login(RegLoginRequest loginRequest, HttpServletRequest request) {
 
         // Convert the submitted email and password into Spring Security credentials.
+
+        // it calls the customUserDetailsService and customuserDetails class we created under hood to validate the user
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
@@ -96,14 +98,21 @@ public class AuthServiceImpl implements AuthService {
         );
 
         // Make the authenticated user available through Spring Security.
+
+        // save the info to security context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Create or reuse the user's HTTP session for session-based authentication.
+
+        // create a cookie session i.e. JSESSIONID for the users.
+        // it is going to auto pass the session down when you accessing any endpoint via the set-cookie.
         HttpSession session = request.getSession(true);
         // Persist the security context in the session for future requests.
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
         // Login succeeded; no sensitive authentication data is included in the response.
+
+        // to return response back to the controller
         return new ApiResponse<>(200, "Login Successfully", null);
     }
 }
